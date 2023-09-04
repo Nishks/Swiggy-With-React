@@ -1,19 +1,52 @@
-import { restaurantList } from "../constant";
+// import { restaurantList } from "../constant";
 import RestaurantCard from "./RestaurantCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const originalRestaurantList = restaurantList;
-
-const filterData = (searchText, restaurant) => {
-  if (searchText === "") return originalRestaurantList;
-  return restaurant.filter((res) => res.name.includes(searchText));
+const filterData = (searchText, allRestaurant) => {
+  console.log(searchText);
+  return allRestaurant.filter((res) =>
+    res?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase())
+  );
 };
 
 const Body = () => {
-  const [restaurant, setRestaurant] = useState(restaurantList);
+  const [allRestaurant, setAllRestaurant] = useState([]);
+  const [restaurant, setRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  return (
+  // empty dependecy array => once after render
+  // dep array [searchText] => once after initial render + everytime after render(searchText changes)
+  useEffect(() => {
+    // API call
+    getRestaurant();
+  }, []);
+
+  const getRestaurant = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.7333148&lng=76.7794179&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    const result = await data.json();
+    console.log(result);
+
+    // optional chaining
+    setRestaurant(
+      result?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
+    );
+    setAllRestaurant(
+      result?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
+    );
+  };
+
+  // not render component (early return)
+  if (!allRestaurant) return null;
+  if (restaurant?.length === 0)
+    return <h1>No restaurant is available with this name</h1>;
+
+  return allRestaurant?.length === 0 ? (
+    <h1>Loading...</h1>
+  ) : (
     <>
       <div className="search-container">
         <input
@@ -27,7 +60,7 @@ const Body = () => {
           className="search-btn"
           onClick={() => {
             // change the restaurant list with respect to input in input box
-            const data = filterData(searchText, restaurant);
+            const data = filterData(searchText, allRestaurant);
             setRestaurant(data);
           }}
         >
@@ -36,7 +69,7 @@ const Body = () => {
       </div>
       <div className="restaurant-List">
         {restaurant.map((res) => (
-          <RestaurantCard {...res} key={res.id} />
+          <RestaurantCard {...res.info} key={res.info.id} />
         ))}
       </div>
     </>
