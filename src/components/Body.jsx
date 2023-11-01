@@ -1,9 +1,11 @@
 // import { restaurantList } from "../constant";
 import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
+import Shimmer from "./ShimmerUI";
+import { Link } from "react-router-dom";
 
 const filterData = (searchText, allRestaurant) => {
-  console.log(searchText);
+  // console.log("searchText " + searchText);
   return allRestaurant.filter((res) =>
     res?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase())
   );
@@ -45,7 +47,7 @@ const Body = () => {
     return <h1>No restaurant is available with this name</h1>;
 
   return allRestaurant?.length === 0 ? (
-    <h1>Loading...</h1>
+    <Shimmer />
   ) : (
     <>
       <div className="search-container">
@@ -69,7 +71,9 @@ const Body = () => {
       </div>
       <div className="restaurant-List">
         {restaurant.map((res) => (
-          <RestaurantCard {...res.info} key={res.info.id} />
+          <Link to={"/restaurant/" + res.info.id} key={res.info.id}>
+            <RestaurantCard {...res.info} />
+          </Link>
         ))}
       </div>
     </>

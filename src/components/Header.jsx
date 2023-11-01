@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { IMG_URL } from "../constant";
+import { Link } from "react-router-dom";
+
+// Single Page Application
+// client side routing and server side routing
+// we are gonna implement client side routing as react already have those pages
 
 export const Title = () => (
-  <a href="/">
+  <Link to="/">
     <img className="logo" alt="logo-image" src={IMG_URL} />
-  </a>
+  </Link>
 );
 
 // name of the component starts with capital letter
@@ -16,9 +21,15 @@ const Header = () => {
       <Title />
       <div className="nav-items">
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Contact</li>
+          <Link to="/">
+            <li>Home</li>
+          </Link>
+          <Link to="/about">
+            <li>About</li>
+          </Link>
+          <Link to="/contact">
+            <li>Contact</li>
+          </Link>
           <li>Cart</li>
         </ul>
       </div>

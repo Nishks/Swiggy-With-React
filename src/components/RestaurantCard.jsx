@@ -6,11 +6,15 @@ const RestaurantCard = ({ name, cloudinaryImageId, cuisines, avgRating }) => {
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 
   return (
-    <div className="card">
-      <img src={image + cloudinaryImageId} alt="restaurant"></img>
-      <h2>{name}</h2>
-      <h3>{cuisines.join(", ")}</h3>
-      <h4>{avgRating} stars</h4>
+    <div className="center">
+      <div className="card">
+        <div className="content">
+          <p className="name">{name}</p>
+          <p className="cuisines">{cuisines.join(", ")}</p>
+          {/* <p>{avgRating} stars</p> */}
+        </div>
+        <img src={image + cloudinaryImageId} alt="restaurant-image"></img>
+      </div>
     </div>
   );
 };
