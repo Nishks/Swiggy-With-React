@@ -3,13 +3,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./ShimmerUI";
 import { Link } from "react-router-dom";
-
-const filterData = (searchText, allRestaurant) => {
-  // console.log("searchText " + searchText);
-  return allRestaurant.filter((res) =>
-    res?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase())
-  );
-};
+import { filterData } from "../utils/helper";
 
 const Body = () => {
   const [allRestaurant, setAllRestaurant] = useState([]);
