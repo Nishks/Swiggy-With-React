@@ -26,11 +26,11 @@ const Body = () => {
 
     // optional chaining
     setRestaurant(
-      result?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+      result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
     setAllRestaurant(
-      result?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
+      result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
   };
